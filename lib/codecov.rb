@@ -199,6 +199,17 @@ class SimpleCov::Formatter::Codecov
       params[:build_url] = ENV['TEAMCITY_BUILD_URL']
       params[:commit] = ENV['TEAMCITY_BUILD_COMMIT']
       params[:slug] = ENV['TEAMCITY_BUILD_REPOSITORY'].split('/', 4)[-1].sub('.git', '')
+
+    # Codefresh
+    # ---------
+    elsif ENV['CI'] == 'true' and ENV['CODEFRESH'] == "true"
+      # https://docs.codefresh.io/v1.0/docs/variables
+      params[:service] = 'custom'
+      params[:commit] = ENV['CF_REVISION']
+      params[:branch] = ENV['CF_BRANCH']
+      params[:build] = ENV['CF_BUILD_ID']
+      params[:build_url] = ENV['CF_BUILD_URL']
+      params[:slug] = ENV['CF_REPO_OWNER'] + '/' + ENV['CF_REPO_NAME']
     end
 
     if params[:branch] == nil
